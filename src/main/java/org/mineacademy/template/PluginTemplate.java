@@ -9,6 +9,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.mineacademy.fo.plugin.SimplePlugin;
 import org.mineacademy.fo.remain.CompMaterial;
 
+import java.util.Objects;
+
 /**
  * PluginTemplate is a simple template you can use every time you make
  * a new plugin. This will save you time because you no longer have to
@@ -52,13 +54,16 @@ public final class PluginTemplate extends SimplePlugin {
 
 	@EventHandler
 	public void onRightClickAnything(PlayerInteractEvent e) {
-		System.out.println("We've started handling click events!");
+		CompMaterial Block = CompMaterial.GRASS_BLOCK;
 
-		if (e.getClickedBlock().getType() == CompMaterial.GRASS_BLOCK.getMaterial()) {
+
+		if (Objects.requireNonNull(e.getClickedBlock()).getType() == Block.getMaterial()) {
 			handleClickingGrass(e.getClickedBlock(), e.getPlayer());
+			System.out.println("...And were done!");
 		}
-
-		System.out.println("...And were done!");
+		if (Objects.requireNonNull(e.getClickedBlock()).getType() != Block.getMaterial()) {
+			System.out.println("This is not a grass block!");
+		}
 	}
 
 	void handleClickingGrass(Block block, Player player) {
