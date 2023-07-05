@@ -56,12 +56,10 @@ public final class PluginTemplate extends SimplePlugin {
 	public void onRightClickAnything(PlayerInteractEvent e) {
 		CompMaterial Block = CompMaterial.GRASS_BLOCK;
 
-
-		if (Objects.requireNonNull(e.getClickedBlock()).getType() == Block.getMaterial()) {
+		if (e.getClickedBlock() != null && Objects.requireNonNull(e.getClickedBlock()).getType() == Block.getMaterial()) {
 			handleClickingGrass(e.getClickedBlock(), e.getPlayer());
 			System.out.println("...And were done!");
-		}
-		if (Objects.requireNonNull(e.getClickedBlock()).getType() != Block.getMaterial()) {
+		} else if (e.getClickedBlock() != null && Objects.requireNonNull(e.getClickedBlock()).getType() != Block.getMaterial()) {
 			System.out.println("This is not a grass block!");
 		}
 	}
