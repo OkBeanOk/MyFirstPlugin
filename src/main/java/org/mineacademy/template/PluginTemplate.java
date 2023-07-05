@@ -1,10 +1,13 @@
 package org.mineacademy.template;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.mineacademy.fo.plugin.SimplePlugin;
+import org.mineacademy.fo.remain.CompMaterial;
 
 /**
  * PluginTemplate is a simple template you can use every time you make
@@ -19,18 +22,8 @@ public final class PluginTemplate extends SimplePlugin {
 	 * Automatically perform login ONCE when the plugin starts.
 	 */
 
-	int firstNumber = 5;
-	int secondNumber = 10;
-	int result = firstNumber - secondNumber;
-
 	@Override
 	protected void onPluginStart() {
-		System.out.println("Plugin has started!");
-
-
-		String hello = "hello! " + "Hello!";
-		String multiLine = "This is the first part"
-				+ "of a multi-line message";
 	}
 
 	/* ------------------------------------------------------------------------------- */
@@ -41,8 +34,7 @@ public final class PluginTemplate extends SimplePlugin {
 	 * An example event that checks if the right clicked entity is a cow, and makes an explosion.
 	 * You can write your events to your main class without having to register a listener.
 	 *
-	 * @param e Hello
-	 *
+	 * @param e is the Event
 	 */
 	@EventHandler
 	public void onRightClick(PlayerInteractEntityEvent e) {
@@ -57,11 +49,22 @@ public final class PluginTemplate extends SimplePlugin {
 			e.getRightClicked().getWorld().createExplosion(e.getRightClicked().getLocation(), 5);
 		}
 	}
-//int multiply(int firstNumber, int secondNumber) {
-//	int result = firstNumber * secondNumber;/* This line is redundant, could just do
-//											  return firstNumber * secondNumber; */
-//	return result;
-//} 			(event.getRightClicked().isOnGround() && event.getRightClicked().getType() == cow);
-//			event.getRightClicked().setCustomName(cowName1);
+
+	@EventHandler
+	public void onRightClickAnything(PlayerInteractEvent e) {
+		System.out.println("We've started handling click events!");
+
+		if (e.getClickedBlock().getType() == CompMaterial.GRASS_BLOCK.getMaterial()) {
+			handleClickingGrass(e.getClickedBlock(), e.getPlayer());
+		}
+
+		System.out.println("...And were done!");
+	}
+
+	void handleClickingGrass(Block block, Player player) {
+		block.setType(CompMaterial.DIAMOND_BLOCK.getMaterial());
+
+		player.sendMessage("you've turned this block into a diamond!");
+	}
 }
 
